@@ -1,6 +1,6 @@
 # dosdownloader
 
-A new Flutter project.
+Dos downloader app is developed for downloading video. You can download video from YouTube and Facebook. You can also play video on background
 
 ## Getting Started
 
