@@ -8,25 +8,27 @@ class CustomWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CustomWebViewCTRL webViewCtrl = Get.put(CustomWebViewCTRL());
-    print(webViewCtrl.initialUrl.toString());
-    webViewCtrl.enableHybridComposition();
-    return WillPopScope(
+    return GetBuilder<CustomWebViewCTRL>(builder: (ctrl) {
+      return WillPopScope(
         onWillPop: () async {
-          if (await webViewCtrl.controller!.canGoBack()) {
-            webViewCtrl.controller!.goBack();
+          if (await ctrl.controller!.canGoBack()) {
+            ctrl.controller!.goBack();
           }
           return false;
         },
-        child: Obx(
-          () => WebView(
-            initialUrl: webViewCtrl.initialUrl.toString(),
-            javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (controller) {
-              webViewCtrl.onWebviewCreated(controller);
-            },
-            onProgress: (progress) => webViewCtrl.onProgress(progress),
-          ),
-        ));
+        child: WebView(
+          initialUrl: ctrl.initialUrl.toString(),
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (controller) {
+            ctrl.onWebviewCreated(controller);
+          },
+          onWebResourceError: (error) {
+            ctrl.onWebResourceError(error);
+          },
+          zoomEnabled: false,
+          onProgress: (progress) => ctrl.onProgress(progress),
+        ),
+      );
+    });
   }
 }
