@@ -1,8 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dosdownloader">
+    package="com.example.dosdownloader"
+    xmlns:tools="http://schemas.android.com/tools">
    <application
         android:label="dosdownloader"
+        tools:replace="android:label" 
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
+        
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
