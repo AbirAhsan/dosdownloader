@@ -12,7 +12,7 @@ class CustomWebViewCTRL extends GetxController {
   @override
   void onInit() {
     enableHybridComposition();
-    getCurrentUrl();
+
     super.onInit();
   }
 
@@ -22,12 +22,12 @@ class CustomWebViewCTRL extends GetxController {
   }
 
   void getCurrentUrl() async {
-    print("value");
+    print("The value is ");
 
     String? st = await controller!.currentUrl();
-    print(st);
+
     haveCurrentUrl.value = st!;
-    print(haveCurrentUrl);
+    print("Current URL $haveCurrentUrl");
   }
 
   changeInitialUrl(String url) {
@@ -37,6 +37,7 @@ class CustomWebViewCTRL extends GetxController {
   onWebviewCreated(ctrl) {
     controller = ctrl;
     getCurrentUrl();
+    // controller.evaluateJavascript(javascriptString)
   }
 
   onProgress(pro) {

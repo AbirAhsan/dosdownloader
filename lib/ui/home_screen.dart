@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     final CustomWebViewCTRL webViewCtrl = Get.put(CustomWebViewCTRL());
-    print("object hhaaa");
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("DOS Downloader"),
@@ -37,24 +37,25 @@ class HomeScreen extends StatelessWidget {
             preferredSize: Size(_width, 10),
           ),
         ),
-        drawer: Drawer(
-          child: SizedBox(
-            child: ListView(),
-          ),
-        ),
+        // drawer: Drawer(
+        //   child: SizedBox(
+        //     child: ListView(),
+        //   ),
+        // ),
         body: const CustomWebView(),
-        floatingActionButton:
-            Obx(() => webViewCtrl.haveCurrentUrl == webViewCtrl.initialUrl
-                ? Container()
-                : FloatingActionButton(
-                    onPressed: () {
-                      // webViewCtrl.controller!.currentUrl().then((value) {
-                      //   print(value);
-                      // });
-                      // webViewCtrl.getCurrentUrl();
-                      print(webViewCtrl.haveCurrentUrl);
-                    },
-                    child: const Icon(Icons.download),
-                  )));
+        floatingActionButton: Obx(() => Visibility(
+              visible: webViewCtrl.haveCurrentUrl.toString() !=
+                  "https://m.youtube.com/",
+              child: FloatingActionButton(
+                onPressed: () {
+                  // webViewCtrl.controller!.currentUrl().then((value) {
+                  //   print(value);
+                  // });
+                  // webViewCtrl.getCurrentUrl();
+                  print(webViewCtrl.haveCurrentUrl);
+                },
+                child: const Icon(Icons.download),
+              ),
+            )));
   }
 }

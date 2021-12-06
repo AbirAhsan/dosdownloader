@@ -9,6 +9,7 @@ class CustomWebView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<CustomWebViewCTRL>(builder: (ctrl) {
+      print("object");
       return WillPopScope(
         onWillPop: () async {
           if (await ctrl.controller!.canGoBack()) {
@@ -24,6 +25,20 @@ class CustomWebView extends StatelessWidget {
           },
           onWebResourceError: (error) {
             ctrl.onWebResourceError(error);
+          },
+          onPageFinished: (url) async {
+            // await ctrl.controller!.runJavascript(
+            //     "document.getElementsByTagName('style-scope ytd-masthead')[0].style.display='none'");
+            print("Here is $url");
+          },
+          navigationDelegate: (NavigationRequest request) {
+            ctrl.getCurrentUrl();
+            // if (request.url.contains("h")) {
+            //   //do somthing
+            //   return NavigationDecision.prevent;
+            // }
+            print('allowing navigation to ${request.url}');
+            return NavigationDecision.navigate;
           },
           zoomEnabled: false,
           onProgress: (progress) => ctrl.onProgress(progress),
