@@ -1,47 +1,54 @@
 import 'package:dosdownloader/controller/custom_webview_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class CustomWebView extends StatelessWidget {
   const CustomWebView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print("object");
     return GetBuilder<CustomWebViewCTRL>(builder: (ctrl) {
-      print("object");
+      // print("object");
       return WillPopScope(
         onWillPop: () async {
-          if (await ctrl.controller!.canGoBack()) {
-            ctrl.controller!.goBack();
+          if (await ctrl.webViewController!.canGoBack()) {
+            ctrl.webViewController!
+                .goBack()
+                .then((value) => ctrl.getCurrentUrl());
           }
+          ctrl.getCurrentUrl();
           return false;
         },
-        child: WebView(
-          initialUrl: ctrl.initialUrl.toString(),
-          javascriptMode: JavascriptMode.unrestricted,
+        child: InAppWebView(
+          key: ctrl.webViewKey,
+          initialUrlRequest: URLRequest(url: Uri.parse("${ctrl.initialUrl}")),
+          initialOptions: ctrl.options,
           onWebViewCreated: (controller) {
-            ctrl.onWebviewCreated(controller);
+            ctrl.setWebViewController(controller);
           },
-          onWebResourceError: (error) {
-            ctrl.onWebResourceError(error);
-          },
-          onPageFinished: (url) async {
-            // await ctrl.controller!.runJavascript(
-            //     "document.getElementsByTagName('style-scope ytd-masthead')[0].style.display='none'");
-            print("Here is $url");
-          },
-          navigationDelegate: (NavigationRequest request) {
+          onLoadStart: (controller, url) {
             ctrl.getCurrentUrl();
-            // if (request.url.contains("h")) {
-            //   //do somthing
-            //   return NavigationDecision.prevent;
-            // }
-            print('allowing navigation to ${request.url}');
-            return NavigationDecision.navigate;
           },
-          zoomEnabled: false,
-          onProgress: (progress) => ctrl.onProgress(progress),
+          androidOnPermissionRequest: (controller, origin, resources) async {
+            return PermissionRequestResponse(
+                resources: resources,
+                action: PermissionRequestResponseAction.GRANT);
+          },
+          onLoadStop: (controller, url) {
+            ctrl.getCurrentUrl();
+          },
+          onProgressChanged: (controller, progress) {
+            ctrl.getCurrentUrl();
+          },
+          onUpdateVisitedHistory: (controller, url, androidIsReload) {
+            ctrl.getCurrentUrl();
+          },
+          onConsoleMessage: (controller, consoleMessage) {
+            ctrl.getCurrentUrl();
+            print("Console message is $consoleMessage");
+          },
         ),
       );
     });

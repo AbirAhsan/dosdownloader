@@ -14,15 +14,15 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: const Text("DOS Downloader"),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  if (await webViewCtrl.controller!.canGoBack()) {
-                    webViewCtrl.controller!.goBack();
-                  }
-                },
-                icon: const Icon(Icons.ac_unit_outlined))
-          ],
+          // actions: [
+          //   IconButton(
+          //       onPressed: () async {
+          //         if (await webViewCtrl.controller!.canGoBack()) {
+          //           webViewCtrl.controller!.goBack();
+          //         }
+          //       },
+          //       icon: const Icon(Icons.ac_unit_outlined))
+          // ],
           bottom: PreferredSize(
             child: Obx(() => Visibility(
                   visible: webViewCtrl.progress.toDouble() != 1.0,
@@ -48,6 +48,7 @@ class HomeScreen extends StatelessWidget {
                   "https://m.youtube.com/",
               child: FloatingActionButton(
                 onPressed: () {
+                  webViewCtrl.downloadVideo();
                   // webViewCtrl.controller!.currentUrl().then((value) {
                   //   print(value);
                   // });
