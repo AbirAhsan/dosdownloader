@@ -53,7 +53,6 @@ class HomeScreen extends StatelessWidget {
                   //   print(value);
                   // });
                   // webViewCtrl.getCurrentUrl();
-                  print(webViewCtrl.haveCurrentUrl);
                 },
                 child: const Icon(Icons.download),
               ),

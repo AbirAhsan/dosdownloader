@@ -37,6 +37,7 @@ dependencies:
   get: ^4.5.1
   flutter_youtube_downloader: ^0.0.5
   flutter_inappwebview: ^5.3.2
+  receive_sharing_intent: ^1.4.5
 
 dev_dependencies:
   flutter_test:
